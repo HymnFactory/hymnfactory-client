@@ -1,14 +1,19 @@
 import { Component } from '@angular/core';
 
-import { SongsPage } from '../songs/songs';
+import { SongsList } from '../../components/song/list';
 
 @Component({
-  templateUrl: 'tabs.html'
+  template: `
+    <ion-tabs>
+        <ion-tab [root]="songsList" tabTitle="Songs" tabIcon="musical-notes"></ion-tab>
+        <ion-tab [root]="songsList" tabTitle="Settings" tabIcon="musical-notes"></ion-tab>
+    </ion-tabs>
+  `
 })
 export class TabsPage {
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  songs: any = SongsPage;
+  songsList: any = SongsList;
 
   constructor() {
 
