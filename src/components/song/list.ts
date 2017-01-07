@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 
-import { NavController, ModalController} from 'ionic-angular';
-import { SongView } from './song';
+import { NavController, ModalController } from 'ionic-angular';
+import { SongView } from './view';
+import { SongEdit } from './edit';
+import { store, ISong } from '../../data/store';
 
 @Component({
     selector: 'song-list',
@@ -20,13 +22,15 @@ import { SongView } from './song';
                 </ion-buttons>
             </ion-toolbar>
         </ion-header>  
-        <ion-content>        
+        <ion-content>  
+            <ion-fab bottom right>
+                <button ion-fab mini color="secondary" (click)="addSong()">
+                    <ion-icon name="add"></ion-icon>
+                </button>
+            </ion-fab>      
             <ion-list>
                 <ion-list-header>Favorites</ion-list-header>
-                <ion-item-group>
-                    <ion-item-divider color="light">A</ion-item-divider>
-                    <ion-item (click)="viewSong({id: 1})">Amazing Grace</ion-item>
-                </ion-item-group>
+                <ion-item (click)="viewSong(song)" *ngFor="let song of songs">{{song.name}}</ion-item>
             </ion-list>
         </ion-content>
   `
@@ -34,23 +38,38 @@ import { SongView } from './song';
 export class SongsList {
     searchString: string = '';
     isSearching: boolean = false;
-    items: any[];
+    songs: ISong[] = [];
 
     constructor(
         public navCtrl: NavController,
-        public modalCtrl: ModalController) { }
+        public modalCtrl: ModalController) {
+        this.getSongs();
+    }
 
     toggleSearch() {
-        this.isSearching = !this.isSearching;       
+        this.isSearching = !this.isSearching;
     }
+
     viewSong(id) {
         this.modalCtrl.create(SongView, id).present();
     }
 
-    getSongs(ev: any) {
-        let val = ev.target.value;
-        console.log(val);
+    addSong() {
+        let songModal = this.modalCtrl.create(SongEdit);
 
+        songModal.present();
+
+        songModal.onDidDismiss(song => {
+            this.getSongs();
+            console.log(song);
+        })
     }
 
+    getSongs() {
+        // let val = ev.target.value;
+        store.findAll('song').then((songs) => {
+            this.songs = songs;
+        })
+
+    }
 }
