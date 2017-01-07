@@ -4,6 +4,21 @@ import { MyApp } from './app.component';
 import { SongsList } from '../components/song/list';
 import { SongView } from '../components/song/song';
 import { TabsPage } from '../pages/tabs/tabs';
+import { DataStore } from 'js-data';
+import { HttpAdapter } from 'js-data-http';
+
+const adapter = new HttpAdapter();
+const store = new DataStore();
+
+store.registerAdapter('http', adapter, {default: true})
+
+store.defineMapper('user', {});
+store.defineMapper('post', {});
+store.defineMapper('comment', {});
+
+store.findAll('post').then((posts) => {
+  console.log('find all posts');
+})
 
 @NgModule({
   declarations: [

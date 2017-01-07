@@ -6,7 +6,6 @@ import { SongsList } from '../../components/song/list';
   template: `
     <ion-tabs>
         <ion-tab [root]="songsList" tabTitle="Songs" tabIcon="musical-notes"></ion-tab>
-        <ion-tab [root]="songsList" tabTitle="Settings" tabIcon="musical-notes"></ion-tab>
     </ion-tabs>
   `
 })

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController, ModalController} from 'ionic-angular';
 import { SongView } from './song';
 
 @Component({
@@ -8,7 +8,16 @@ import { SongView } from './song';
     template: `
         <ion-header>
             <ion-toolbar color="primary">
-                <ion-searchbar (ionInput)="getSongs($event)"></ion-searchbar>
+                <ion-searchbar *ngIf="isSearching" (ionInput)="getSongs($event)"></ion-searchbar>
+                <ion-title *ngIf="!isSearching" >Hymn Factory</ion-title>
+                <ion-buttons end>
+                    <button ion-button *ngIf="!isSearching" (click)="toggleSearch(e)">
+                        <ion-icon name="ios-search"></ion-icon>
+                    </button>
+                    <button ion-button *ngIf="isSearching" (click)="isSearching = !isSearching">
+                        Cancel
+                    </button>
+                </ion-buttons>
             </ion-toolbar>
         </ion-header>  
         <ion-content>        
@@ -24,12 +33,16 @@ import { SongView } from './song';
 })
 export class SongsList {
     searchString: string = '';
+    isSearching: boolean = false;
     items: any[];
 
     constructor(
         public navCtrl: NavController,
         public modalCtrl: ModalController) { }
 
+    toggleSearch() {
+        this.isSearching = !this.isSearching;       
+    }
     viewSong(id) {
         this.modalCtrl.create(SongView, id).present();
     }
