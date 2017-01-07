@@ -1,6 +1,10 @@
 {
-  "name": "hymnfactory-client",
-  "app_id": "",
-  "v2": true,
-  "typescript": true
+    "name": "hymnfactory-client",
+    "app_id": "",
+    "v2": true,
+    "typescript": true,
+    "proxies": [{
+        "path": "/api",
+        "proxyUrl": "http://localhost:1337"
+    }]
 }

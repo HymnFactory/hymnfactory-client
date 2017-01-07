@@ -12,11 +12,11 @@ const store = new DataStore();
 
 store.registerAdapter('http', adapter, {default: true})
 
-store.defineMapper('user', {});
+store.defineMapper('user', {endpoint: "/api/song"});
 store.defineMapper('post', {});
 store.defineMapper('comment', {});
 
-store.findAll('post').then((posts) => {
+store.findAll('user').then((posts) => {
   console.log('find all posts');
 })
 
